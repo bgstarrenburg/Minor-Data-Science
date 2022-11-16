@@ -1,7 +1,7 @@
-install.packages("readxl")
-install.packages("dplyr")
-install.packages("ggplot2")
-install.packages("plotly")
+#install.packages("readxl")
+#install.packages("dplyr")
+#install.packages("ggplot2")
+#install.packages("plotly")
 
 library(readxl)
 library(dplyr)

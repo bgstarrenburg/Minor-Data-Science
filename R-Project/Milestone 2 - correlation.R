@@ -29,6 +29,8 @@ stateData = data.frame(matrix(nrow = length(rowNames), ncol = length(columnNames
 colnames(stateData) = columnNames
 rownames(stateData) = rowNames
 
+#NY, MA & FL goede correlatie
+
 for (year in rowNames) {
   # get amount of homeless people per year for the state CA
   homelessAmountSheet = read_excel("../data/2007-2021-PIT-Counts-by-State.xlsx", year)
@@ -41,7 +43,10 @@ for (year in rowNames) {
   stateData[year, "Average Income"] = averageIncome[averageIncomeStates == state, ]
 }
 
-plot(stateData)
+#plot(stateData)
 
 model = lm(stateData$`Amount of Homeless People` ~ stateData$`Average Income`)
-cor.test(stateData$`Amount of Homeless People`, stateData$`Average Income`)
+cor.test(stateData$`Average Income`, stateData$`Amount of Homeless People`)
+
+summary(model)
+#plot(row.names(stateData), stateData$`Amount of Homeless People`)
