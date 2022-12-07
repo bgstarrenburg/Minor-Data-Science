@@ -1,5 +1,5 @@
 # Per staat
-#        | Homeless People | Average Income | Population | Rental vacancy rates | Rent prices
+#        | Homeless People | Average Income | Population | Rental vacancy rates | Rent prices | Housing Units
 #       _|
 #   2007 |
 #   2008 |
@@ -34,8 +34,11 @@ vacancyStates = averageIncomeSheet[, "State"]$State
 rentPricesSheet = read_excel("../data/Rent Prices USA.xlsx", "Rent per State")
 rentPricesStates = rentPricesSheet[, "State"]$State
 
-columnNames = c("Amount of Homeless People", "Average Income", "Population", "Rental vacancy rates", "Rent prices")
-rowNames = c("2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019")
+housingUnitsSheet = read_excel("../data/housingUnits.xlsx", "Housing Units")
+housingUnitsStates = housingUnitsSheet[, "State"]$State
+
+columnNames = c("Amount of Homeless People", "Average Income", "Population", "Rental vacancy rates", "Rent prices", "Housing Units")
+rowNames = c("2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019")
 stateData = data.frame(matrix(nrow = length(rowNames), ncol = length(columnNames)))
 colnames(stateData) = columnNames
 rownames(stateData) = rowNames
@@ -63,9 +66,13 @@ getCorrelation = function (state) {
     # get rent prices per year
     rent = rentPricesSheet[, year]
     stateData[year, "Rent prices"] = rent[rentPricesStates == state, ]
+    
+    # get housing units per year
+    rent = housingUnitsSheet[, year]
+    stateData[year, "Housing Units"] = rent[housingUnitsStates == state, ]
   }
   
-  print(cor.test(stateData$`Amount of Homeless People`, stateData$`Rent prices`))
+  print(cor.test(stateData$`Amount of Homeless People`, stateData$`Housing Units` / stateData$Population))
   #model = lm(stateData$`Amount of Homeless People` ~ stateData$Population)
   #print(summary(model))
   
