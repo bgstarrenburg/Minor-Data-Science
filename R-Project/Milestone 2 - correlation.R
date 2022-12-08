@@ -27,7 +27,21 @@ homeless_data_explaination <- read_xlsx("../data/HUD TO3 - 05b Analysis File - D
 #state = "NY"
 h1_clean <- data.frame(h1$year, h1$cocnumber, h1$pit_tot_hless_pit_hud, h1$hou_pol_fedfundcoc, h1$hou_pol_fund_project, h1$econ_labor_medinc_acs5yr, h1$econ_labor_emp_pop_BLS, h1$econ_labor_unemp_pop_BLS, h1$econ_labor_unemp_rate_BLS, h1$	
                          dem_soc_ed_bach_acs5yr, h1$dem_soc_ed_hsgrad_acs5yr, h1$dem_soc_ed_lesshs_acs5yr, h1$dem_soc_ed_somecoll_acs5yr)
-colnames(h1_clean) <- c("year", "cocnumber", "total homeless", "CoC federal funding","count of federal funded projects","median household income", "total employed", "total unemployed", "unemployment rate in %", "education share-bachelors or higher age 25-64 rate in %", "education share-high school grad age 25-64  rate in %", "ducation share-less than high school grad age 25-64  rate in %", "education share-some college age 25-64  rate in %")
+colnames(h1_clean) <- c("year",
+ "cocnumber", 
+ "total homeless", 
+ "CoC federal funding",
+ "count of federal funded projects",
+ "median household income",
+ "total employed",
+  "total unemployed", 
+  "unemployment rate in %",
+   "education share-bachelors or higher age 25-64 rate in %",
+    "education share-high school grad age 25-64  rate in %", 
+    "ducation share-less than high school grad age 25-64  rate in %",
+     "education share-some college age 25-64  rate in %")
+
+
 columnNames = c("Amount of Homeless People", "Average unemployment")
 rowNames = c("2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019")
 stateData = data.frame(matrix(nrow = length(rowNames), ncol = length(columnNames)))
