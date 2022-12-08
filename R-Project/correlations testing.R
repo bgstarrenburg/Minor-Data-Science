@@ -1,3 +1,6 @@
+#######################
+# Installing packages #
+#######################
 
 # install.packages("readxl")
 # install.packages("writexl")
@@ -5,6 +8,11 @@
 # install.packages("ggplot2")
 # install.packages("plotly")
 # install.packages("data.table")
+
+###################
+# adding packages #
+###################
+
 library("readxl")
 library("writexl")
 library("dplyr")
@@ -12,25 +20,38 @@ library("ggplot2")
 library("plotly")
 library("data.table")
 
-# get all sheets
+################
+# loading data #
+################
+
+#average income
 averageIncomeSheet = read_excel("../data/Income per Capita by State 1929-2021.xlsx")
 averageIncomeStates = averageIncomeSheet[, "State"]$State
 
-#source 
+#population
 populationSheet = read_excel("../data/Population USA by State 1900-2021.xlsx")
 populationStates = averageIncomeSheet[, "State"]$State
 
-#source: https://www.census.gov/housing/hvs/data/rates.html
+# rental vacancy rates - source: https://www.census.gov/housing/hvs/data/rates.html
 rentalVacancySheet = read_excel("../data/rental_vacancy_rates.xlsx")
 vacancyStates = averageIncomeSheet[, "State"]$State
-#state = "NY"
 
+#rent prices
 rentPricesSheet = read_excel("../data/Rent Prices USA.xlsx", "Rent per State")
 rentPricesStates = rentPricesSheet[, "State"]$State
 
+#housing units
 housingUnitsSheet = read_excel("../data/housingUnits.xlsx", "Housing Units")
 housingUnitsStates = housingUnitsSheet[, "State"]$State
 
+#analysis sheets - used for multiple values
+analysisSheet <- read.csv("../data/05b_analysis_file_update.csv")
+
+###########################
+# initializing dataframes #
+###########################
+
+#standart stateData dataframe
 columnNames = c("Amount of Homeless People", 
                 "Average Income", 
                 "Population", 
@@ -41,7 +62,6 @@ columnNames = c("Amount of Homeless People",
                 "Federal Funding",
                 "High School",
                 "Bachelor")
-
 rowNames = c("2010", 
              "2011", 
              "2012", 
@@ -49,23 +69,30 @@ rowNames = c("2010",
              "2014", 
              "2015", 
              "2016", 
-             "2017")#, 
-             #"2018", 
-             #"2019")
-
+             "2017")
 stateData = data.frame(matrix(nrow = length(rowNames), ncol = length(columnNames)))
 colnames(stateData) = columnNames
 rownames(stateData) = rowNames
 
-##### data from niels his file ######
-h1 <- read.csv("../data/05b_analysis_file_update.csv")
-h1_clean <- data.frame(h1$year, h1$cocnumber, h1$pit_tot_hless_pit_hud, h1$hou_pol_fedfundcoc, h1$hou_pol_fund_project, h1$econ_labor_medinc_acs5yr, h1$econ_labor_emp_pop_BLS, h1$econ_labor_unemp_pop_BLS, h1$econ_labor_unemp_rate_BLS, h1$	
+#cleaned analysis dataframe
+analysisSheet_clean <- data.frame(h1$year, h1$cocnumber, h1$pit_tot_hless_pit_hud, h1$hou_pol_fedfundcoc, h1$hou_pol_fund_project, h1$econ_labor_medinc_acs5yr, h1$econ_labor_emp_pop_BLS, h1$econ_labor_unemp_pop_BLS, h1$econ_labor_unemp_rate_BLS, h1$	
                          dem_soc_ed_bach_acs5yr, h1$dem_soc_ed_hsgrad_acs5yr, h1$dem_soc_ed_lesshs_acs5yr, h1$dem_soc_ed_somecoll_acs5yr)
-colnames(h1_clean) <- c("year", "cocnumber", "total homeless", "CoC federal funding","count of federal funded projects","median household income", "total employed", "total unemployed", "unemployment rate in %", "education share-bachelors or higher age 25-64 rate in %", "education share-high school grad age 25-64  rate in %", "ducation share-less than high school grad age 25-64  rate in %", "education share-some college age 25-64  rate in %")
-h1Years = h1_clean$year
+colnames(analysisSheet_clean) <- c("year", "cocnumber", "total homeless", "CoC federal funding","count of federal funded projects","median household income", "total employed", "total unemployed", "unemployment rate in %", "education share-bachelors or higher age 25-64 rate in %", "education share-high school grad age 25-64  rate in %", "ducation share-less than high school grad age 25-64  rate in %", "education share-some college age 25-64  rate in %")
 
-#####################################
+##Correlations dataframe
+allStateNr = c(1,2,4,6,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,44,45,46,47,48,49,50,51,53,54,55,56)
+allStates = c('AL','AK','AZ','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','UT','TX','VT','VA','WA','WV','WI','WY')
+#(note AR is not used in many datasets, so left out)
 
+correlations = data.frame(matrix(nrow = length(allStates), ncol = 0))
+rownames(correlations) = allStates
+
+correlations$StateNr = allStateNr
+correlations$State = allStates
+
+###################
+# methods packages #
+###################
 
 getData = function (state) {
   for (year in rowNames) {
@@ -95,12 +122,12 @@ getData = function (state) {
     rent = housingUnitsSheet[, year]
     stateData[year, "Housing Units"] = rent[housingUnitsStates == state, ]
 
-    h1_by_state = h1_clean[h1_clean$cocnumber %like% state, ]
-    unemployment = aggregate(h1_by_state['total unemployed'], by=h1_by_state['year'], sum)
+    analysis_by_state = analysisSheet_clean[analysisSheet_clean$cocnumber %like% state, ]
+    unemployment = aggregate(analysis_by_state['total unemployed'], by=analysis_by_state['year'], sum)
     year = unemployment$year == year
     stateData[year, 'Unemployment'] = unemployment$`total unemployed`[year]
     
-    federalFunding = aggregate(h1_by_state['CoC federal funding'], by=h1_by_state['year'], sum)
+    federalFunding = aggregate(analysis_by_state['CoC federal funding'], by=analysis_by_state['year'], sum)
     stateData[year, 'Federal Funding'] = federalFunding$`CoC federal funding`[year]
   }
   #corTest = cor.test(stateData$`Amount of Homeless People`, stateData$`Rent prices`)
@@ -113,115 +140,9 @@ getCorrelation = function(x, y) {
   cor(x, y)
 }
 
-allStateNr = c(1,
-2,
-4,
-#5,
-6,
-8,
-9,
-10,
-11,
-12,
-13,
-15,
-16,
-17,
-18,
-19,
-20,
-21,
-22,
-23,
-24,
-25,
-26,
-27,
-28,
-29,
-30,
-31,
-32,
-33,
-34,
-35,
-36,
-37,
-38,
-39,
-40,
-41,
-42,
-44,
-45,
-46,
-47,
-48,
-49,
-50,
-51,
-53,
-54,
-55,
-56)
-
-allStates = c('AL',
-'AK',
-'AZ',
-#'AR',
-'CA',
-'CO',
-'CT',
-'DE',
-'DC',
-'FL',
-'GA',
-'HI',
-'ID',
-'IL',
-'IN',
-'IA',
-'KS',
-'KY',
-'LA',
-'ME',
-'MD',
-'MA',
-'MI',
-'MN',
-'MS',
-'MO',
-'MT',
-'NE',
-'NV',
-'NH',
-'NJ',
-'NM',
-'NY',
-'NC',
-'ND',
-'OH',
-'OK',
-'OR',
-'PA',
-'RI',
-'SC',
-'SD',
-'TN',
-'UT',
-'TX',
-'VT',
-'VA',
-'WA',
-'WV',
-'WI',
-'WY')
-
-correlations = data.frame(matrix(nrow = length(allStates), ncol = 0))
-rownames(correlations) = allStates
-
-correlations$StateNr = allStateNr
-correlations$State = allStates
+####################
+# get correlations #
+####################
 
 for (state in allStates) {
   try({
