@@ -9,6 +9,7 @@
 # install.packages("plotly")
 # install.packages("data.table")
 # install.packages("rjson")
+  install.packages("corrr")
 
 ###################
 # adding packages #
@@ -21,6 +22,7 @@ library("ggplot2")
 library("plotly")
 library("data.table")
 library("rjson")
+library("corrr")
 
 ################
 # loading data #
@@ -52,6 +54,14 @@ analysisSheet <- read.csv("../data/05b_analysis_file_update.csv")
 ##########################
 # initializing variables #
 ##########################
+
+# Data niels
+h1 <- read.csv("../data/05b_analysis_file_update.csv")
+
+
+###########################
+# initializing dataframes #
+###########################
 
 #standart stateData dataframe
 columnNames = c("Amount of Homeless People", 
@@ -215,3 +225,27 @@ jsonData <- toJSON(allData)
 write(jsonData, "../data/parsedData.json") 
 
 write_xlsx(correlations,"../data/correlationsResults.xlsx")
+
+
+
+plot(correlations$`Amount of Homeless People` ~ correlations$`Federal Funding PH`)
+
+fit=lm(formula = correlations$`Amount of Homeless People` ~ correlations$`Federal Funding PH`)
+summary(fit)
+
+
+fit=lm(formula = correlations$`Average Income` ~ correlations$`Average Rent`) # 0.64 average rent / income
+summary(fit)
+
+fit=lm(formula = correlations$Population ~ correlations$`Housing Units`) # 0.988 housing units / pop
+summary(fit)
+
+fit=lm(formula = correlations$Population ~ correlations$`Federal Funding`) # 0.78 federal fund / pop
+summary(fit) 
+
+fit=lm(formula = correlations$Population ~ correlations$Unemployment) # 0.98 unemployment / pop
+summary(fit)
+
+all_corr = corrr::correlate(correlations, method = "pearson")
+
+
