@@ -9,7 +9,7 @@
 # install.packages("plotly")
 # install.packages("data.table")
 # install.packages("rjson")
-  install.packages("corrr")
+#  install.packages("corrr")
 
 ###################
 # adding packages #
@@ -144,7 +144,7 @@ getData = function (state) {
     stateData[year, 'Federal Funding'] = federalFunding$`CoC federal funding`[year]
     
     federalFundingPH = federalFunding$`CoC federal funding`[year] / totalHomelessAmount[states == state]
-    stateData[year, 'Federal Funding PH'] = federalFunding$`CoC federal funding`[year]
+    stateData[year, 'Federal Funding PH'] = federalFundingPH
   }
   #corTest = cor.test(stateData$`Amount of Homeless People`, stateData$`Rent prices`)
   #model = lm(stateData$`Amount of Homeless People` ~ stateData$`Rent prices`)
@@ -224,4 +224,4 @@ for (state in allStates) {
 jsonData <- toJSON(allData)
 write(jsonData, "../data/parsedData.json") 
 
-write_xlsx(correlations,"../data/correlationsResults.xlsx")
+#write_xlsx(correlations,"../data/correlationsResults.xlsx")

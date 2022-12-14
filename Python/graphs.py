@@ -21,17 +21,18 @@ bigX = pd.DataFrame()
 bigY = pd.DataFrame()
 
 # allColumns = ['Amount of Homeless People', 'Average Income', 'Population', 'Rental vacancy rates',
-#               'Rent prices', 'Housing Units', 'Unemployment', 'Federal Funding', 'Federal Funding PH']
+#               'Rent prices', 'Housing Units', 'Unemployment', 'Federal Funding']
 
-columnsToUse = ['Population',  'Federal Funding PH']
+columnsToUse = ['Average Income', 'Population',
+                'Rent prices', 'Housing Units', 'Unemployment', 'Federal Funding']
 
 
-columnsFor3dFigure = ['Population', 'Federal Funding PH',
+columnsFor3dFigure = ['Population', 'Federal Funding',
                       'Amount of Homeless People']
 
 
 allData = pd.DataFrame()
-#columnsToUse  = ['Federal Funding PH']
+# columnsToUse  = ['Federal Funding']
 
 for state in allStates:
     stateData = allDataByStates[state]
@@ -45,14 +46,14 @@ for state in allStates:
 score = TrainModel("All", bigX, bigY, 0.2, 5, False, columnsToUse)
 
 
-x1 = allData['Federal Funding PH']
+x1 = allData['Federal Funding']
 y1 = allData['Amount of Homeless People']
 z1 = allData['Population']
 sns.set_style("darkgrid")
 plt.figure(figsize=(5, 4))
 plot_axes = plt.axes(projection="3d")
 plot_axes.scatter(x1, y1, z1)
-plot_axes.set_xlabel('Federal Funding PH')
+plot_axes.set_xlabel('Federal Funding')
 plot_axes.set_ylabel('Amount of Homeless People')
 plot_axes.set_zlabel('Population')
 plot_axes.set_title(

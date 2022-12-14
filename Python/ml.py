@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 from pandas import DataFrame
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-import statsmodels.api as sm
+
 
 def TrainModel(
     state: str,
@@ -21,9 +21,9 @@ def TrainModel(
 
     if (visualise == True):
         y_pred = LR.predict(X_test[columnsToUse])
-        # plt.scatter(X_test["Federal Funding PH"], y_pred, color='b')
-        plt.scatter(X["Federal Funding PH"], Y, color='k')
-        plt.xlabel("Federal Funding PH")
+        # plt.scatter(X_test["Federal Funding"], y_pred, color='b')
+        plt.scatter(X["Federal Funding"], Y, color='k')
+        plt.xlabel("Federal Funding")
         plt.ylabel("Amount of Homeless")
         plt.title("Correlation in State GA (Georgia)")
         plt.show()
