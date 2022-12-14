@@ -144,7 +144,7 @@ getData = function (state) {
     stateData[year, 'Federal Funding'] = federalFunding$`CoC federal funding`[year]
     
     federalFundingPH = federalFunding$`CoC federal funding`[year] / totalHomelessAmount[states == state]
-    stateData[year, 'Federal Funding PH'] = federalFundingPH
+    stateData[year, 'Federal Funding PH'] = federalFunding$`CoC federal funding`[year]
   }
   #corTest = cor.test(stateData$`Amount of Homeless People`, stateData$`Rent prices`)
   #model = lm(stateData$`Amount of Homeless People` ~ stateData$`Rent prices`)
@@ -217,30 +217,6 @@ for (state in allStates) {
   })
 }
 
-#####################
-# Correlation graph #
-#####################
-
-x = 1:50
-y1 = sort(correlations$`Homeless people ~ Average Salary`)
-y2 = sort(correlations$`Homeless people ~ Population`)
-y3 = sort(correlations$`Homeless people ~ Rent prices`)
-y4 = sort(correlations$`Homeless people ~ Federal Funding PH`)
-plot(x, y1, type='l', col='blue', phc='o', ylab='correlation value between -1 and 1', xlab="states", ylim = c(-1, 1))
-
-#points(x, y2, col='red', pch='*')
-lines(x, y2, col='red')
-
-#points(x, y3, col='dark red', pch='*')
-lines(x, y3, col='dark red')
-
-#points(x, y4, col='green', pch='*')
-lines(x, y4, col='green')
-
-title("Correlation values related to Homelesness per State")
-legend(0, 1, legend=c("Average Salary", "Population", "Rent Prices", "Federal Funding PH"), fill= c("blue", "red", "dark red", "green"))
-abline(h = 0)
-
 ##########
 # output #
 ##########
@@ -249,27 +225,3 @@ jsonData <- toJSON(allData)
 write(jsonData, "../data/parsedData.json") 
 
 write_xlsx(correlations,"../data/correlationsResults.xlsx")
-
-
-
-plot(correlations$`Amount of Homeless People` ~ correlations$`Federal Funding PH`)
-
-fit=lm(formula = correlations$`Amount of Homeless People` ~ correlations$`Federal Funding PH`)
-summary(fit)
-
-
-fit=lm(formula = correlations$`Average Income` ~ correlations$`Average Rent`) # 0.64 average rent / income
-summary(fit)
-
-fit=lm(formula = correlations$Population ~ correlations$`Housing Units`) # 0.988 housing units / pop
-summary(fit)
-
-fit=lm(formula = correlations$Population ~ correlations$`Federal Funding`) # 0.78 federal fund / pop
-summary(fit) 
-
-fit=lm(formula = correlations$Population ~ correlations$Unemployment) # 0.98 unemployment / pop
-summary(fit)
-
-all_corr = corrr::correlate(correlations, method = "pearson")
-
-

@@ -20,9 +20,8 @@ for i in range(0, len(allStates)):
 # try to create 1 model for all States
 bigX = pd.DataFrame()
 bigY = pd.DataFrame()
-#allColumns = ['Amount of Homeless People', 'Average Income', 'Population', 'Rental vacancy rates', 'Rent prices', 'Housing Units', 'Unemployment', 'Federal Funding' , 'Federal Funding PH']
-columnsToUse = ['Population', 'Rental vacancy rates', 'Rent prices',
-                'Housing Units', 'Unemployment', 'Federal Funding', 'Federal Funding PH']
+#allColumns = ['Amount of Homeless People', 'Average Income', 'Population', 'Rental vacancy rates', 'Rent prices', 'Housing Units', 'Unemployment', 'Federal Funding PH']
+columnsToUse = ['Population', 'Federal Funding PH']
 #columnsToUse  = ['Federal Funding PH']
 
 for state in allStates:
