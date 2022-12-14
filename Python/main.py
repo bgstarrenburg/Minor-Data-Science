@@ -8,8 +8,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 
-allStates = loadFromJSON('../data/allStates.json')
-allData = loadFromJSON('../data/parsedData.json')
+allStates = loadFromJSON('D:\\Github\\Minor-Data-Science\\data\\allStates.json')
+allData = loadFromJSON('D:\\Github\\Minor-Data-Science\\data\\parsedData.json')
 allDataByStates = dict()
 allScores = []
 
