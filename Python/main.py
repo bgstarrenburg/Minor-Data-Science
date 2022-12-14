@@ -7,6 +7,7 @@ from utils import loadFromJSON
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
+import statsmodels.api as sm
 
 allStates = loadFromJSON('../data/allStates.json')
 allData = loadFromJSON('../data/parsedData.json')

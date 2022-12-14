@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 from pandas import DataFrame
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-
+import statsmodels.api as sm
 
 def TrainModel(
     state: str,
