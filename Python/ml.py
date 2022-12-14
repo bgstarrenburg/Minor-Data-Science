@@ -22,6 +22,9 @@ def TrainModel(
     if (visualise == True):
         y_pred = LR.predict(X_test[columnsToUse])
         # plt.scatter(X_test["Federal Funding PH"], y_pred, color='b')
-        plt.scatter(y_test, y_pred, color='k')
+        plt.scatter(X["Federal Funding PH"], Y, color='k')
+        plt.xlabel("Federal Funding PH")
+        plt.ylabel("Amount of Homeless")
+        plt.title("Correlation in State GA (Georgia)")
         plt.show()
     return LR.score(X_test[columnsToUse], y_test)

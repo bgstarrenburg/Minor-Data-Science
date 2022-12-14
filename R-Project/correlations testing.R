@@ -82,7 +82,7 @@ colnames(analysisSheet_clean) <- c("year", "cocnumber", "total homeless", "CoC f
 
 ##Correlations dataframe
 allStateNr = c(1,2,4,6,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,44,45,46,47,48,49,50,51,53,54,55,56)
-allStates = fromJSON(file = "../data/allStates.json")
+allStates = c('AL','AK','AZ','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','UT','TX','VT','VA','WA','WV','WI','WY')
 #(note AR is not used in many datasets, so left out)
 
 correlations = data.frame(matrix(nrow = length(allStates), ncol = 0))
@@ -134,7 +134,7 @@ getData = function (state) {
     stateData[year, 'Federal Funding'] = federalFunding$`CoC federal funding`[year]
     
     federalFundingPH = federalFunding$`CoC federal funding`[year] / totalHomelessAmount[states == state]
-    stateData[year, 'Federal Funding PH'] = federalFunding$`CoC federal funding`[year]
+    stateData[year, 'Federal Funding PH'] = federalFundingPH
   }
   #corTest = cor.test(stateData$`Amount of Homeless People`, stateData$`Rent prices`)
   #model = lm(stateData$`Amount of Homeless People` ~ stateData$`Rent prices`)
@@ -206,6 +206,30 @@ for (state in allStates) {
     correlations[state, 'Homeless people ~ Federal Funding PH'] = correlation8
   })
 }
+
+#####################
+# Correlation graph #
+#####################
+
+x = 1:50
+y1 = sort(correlations$`Homeless people ~ Average Salary`)
+y2 = sort(correlations$`Homeless people ~ Population`)
+y3 = sort(correlations$`Homeless people ~ Rent prices`)
+y4 = sort(correlations$`Homeless people ~ Federal Funding PH`)
+plot(x, y1, type='l', col='blue', phc='o', ylab='correlation value between -1 and 1', xlab="states", ylim = c(-1, 1))
+
+#points(x, y2, col='red', pch='*')
+lines(x, y2, col='red')
+
+#points(x, y3, col='dark red', pch='*')
+lines(x, y3, col='dark red')
+
+#points(x, y4, col='green', pch='*')
+lines(x, y4, col='green')
+
+title("Correlation values related to Homelesness per State")
+legend(0, 1, legend=c("Average Salary", "Population", "Rent Prices", "Federal Funding PH"), fill= c("blue", "red", "dark red", "green"))
+abline(h = 0)
 
 ##########
 # output #

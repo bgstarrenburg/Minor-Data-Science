@@ -20,7 +20,7 @@ for i in range(0, len(allStates)):
 bigX = pd.DataFrame()
 bigY = pd.DataFrame()
 #allColumns = ['Amount of Homeless People', 'Average Income', 'Population', 'Rental vacancy rates', 'Rent prices', 'Housing Units', 'Unemployment', 'Federal Funding' , 'Federal Funding PH']
-columnsToUse = ['Average Income', 'Population', 'Rental vacancy rates', 'Rent prices',
+columnsToUse = ['Population', 'Rental vacancy rates', 'Rent prices',
                 'Housing Units', 'Unemployment', 'Federal Funding', 'Federal Funding PH']
 #columnsToUse  = ['Federal Funding PH']
 
@@ -36,8 +36,8 @@ if (True):
     TrainModel("All", bigX, bigY, 0.2, 5, False, columnsToUse)
 
 # try to get a model for each state
-if (False):
-    for state in allStates:
+if (True):
+    for state in ["GA"]:  # allStates:
         X = allDataByStates[state][columnsToUse]
         y = allDataByStates[state]["Amount of Homeless People"]
         # remove outliers
@@ -49,7 +49,7 @@ if (False):
             y = y[outlierMask]
 
         allScores.append(
-            [state, TrainModel(state, X, y, 0.2, 5, False, columnsToUse)])
+            [state, TrainModel(state, X, y, 0.2, 5, True, columnsToUse)])
 
 # create models where data is split by population range
 if (False):
