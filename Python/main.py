@@ -9,8 +9,8 @@ from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 
-allStates = loadFromJSON('../data/allStates.json')
-allData = loadFromJSON('../data/parsedData.json')
+allStates = loadFromJSON('D:\\Github\\Minor-Data-Science\\data\\allStates.json')
+allData = loadFromJSON('D:\\Github\\Minor-Data-Science\\data\\parsedData.json')
 allDataByStates = dict()
 allScores = []
 
