@@ -20,11 +20,11 @@ def TrainModel(
     LR = LR.fit(X_train[columnsToUse], y_train)
     print(state + " | " + str(LR.score(X_test[columnsToUse], y_test)))
 
-    X.columns = ['Average_Income', 'Population', 'Rental_vacancy_rates', 'Rent_prices',
-                 "Housing_Units", "Unemployment",  "Federal_Funding", "Federal_Funding_PH"]
-    model = sm.ols(formula='Population ~ Federal_Funding_PH',
-                   data=X).fit()
-    print(model.summary())
+    # X.columns = ['Average_Income', 'Population', 'Rental_vacancy_rates', 'Rent_prices',
+    #              "Housing_Units", "Unemployment",  "Federal_Funding", "Federal_Funding_PH"]
+    # model = sm.ols(formula='Population ~ Federal_Funding_PH',
+    #                data=X).fit()
+    # print(model.summary())
 
     if (visualise == True):
         y_pred = LR.predict(X_test[columnsToUse])
