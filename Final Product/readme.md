@@ -25,4 +25,4 @@ The independent values the user will have to input are:
 5. Unemployment
 6. Federal Funding
 
-To run this project open the python folder in an IDE using Anaconda and run `main.py`. Or run it directly using anaconda prompt in the current directory with `python main.py`.
+To run this project open the Python-Project folder in an IDE using Anaconda and run `main.py`. Or run it directly using anaconda prompt in the current directory with `python main.py`.

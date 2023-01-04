@@ -5,6 +5,7 @@
 import json
 from sklearn.linear_model import ElasticNet
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 import pandas as pd
 
 ##########################
@@ -33,32 +34,28 @@ y = allCombinedData["Amount of Homeless People"]
 # Training of the model #
 #########################
 
+
 def ElasticNetModel() -> ElasticNet:
     print("training model...")
-    EN = ElasticNet(alpha = 2.0, l1_ratio=0.1, max_iter=3000)
+    EN = ElasticNet(alpha=2.0, l1_ratio=0.1, max_iter=3000)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.1, random_state=5)
 
     EN = EN.fit(X_train, y_train)
-    
+    # y_predict = EN.predict(X)
+    # plt.scatter(X['Federal Funding'], y)
+    # plt.scatter(X['Federal Funding'], y_predict)
+    # plt.show()
     print("training model done")
-    print(": ".join(["created elastic net model with a score of", str(EN.score(X_test, y_test))]))
+    print(": ".join(
+        ["created elastic net model with a score of", str(EN.score(X_test, y_test))]))
     return EN
 
 #####################
 # Predicting values #
 #####################
 
+
 def PredictValue(EN: ElasticNet, X_prediction: pd.DataFrame) -> int:
     y_prediction = EN.predict(X_prediction)
     return round(y_prediction[0])
-
-
-##############################
-# Look at head of all values #
-##############################
-
-def ShowHead():
-    print(allCombinedData.head())
-    print()
-

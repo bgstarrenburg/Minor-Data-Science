@@ -60,7 +60,7 @@ columnNames = c("Amount of Homeless People",
                 "Average Income", 
                 "Population", 
                 "Rental vacancy rates", 
-                "Rent prices", 
+                "Average Rent prices", 
                 "Housing Units",
                 "Unemployment",
                 "Federal Funding")
@@ -112,7 +112,7 @@ getData = function (state) {
     
     # get rent prices per year
     rent = rentPricesSheet[, year]
-    stateData[year, "Rent prices"] = rent[rentPricesStates == state, ]
+    stateData[year, "Average Rent prices"] = rent[rentPricesStates == state, ]
     
     # get housing units per year
     rent = housingUnitsSheet[, year]
@@ -124,7 +124,7 @@ getData = function (state) {
     stateData[year, 'Unemployment'] = unemployment$`total unemployed`[year]
     
     federalFunding = aggregate(analysis_by_state['CoC federal funding'], by=analysis_by_state['year'], sum)
-    stateData[year, 'Federal Funding'] = federalFunding$`CoC federal funding`[year]
+    stateData[year, 'Federal Funding'] = federalFunding$`CoC federal funding`[year] * 1000
   }
     
   stateData
