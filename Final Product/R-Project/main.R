@@ -3,7 +3,6 @@
 #######################
 
 install.packages("readxl")
-install.packages("dplyr")
 install.packages("data.table")
 install.packages("rjson")
 
@@ -12,7 +11,6 @@ install.packages("rjson")
 ###################
 
 library("readxl")
-library("dplyr")
 library("data.table")
 library("rjson")
 
