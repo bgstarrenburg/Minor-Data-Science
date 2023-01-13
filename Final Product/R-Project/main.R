@@ -122,7 +122,7 @@ getData = function (state) {
     stateData[year, 'Unemployment'] = unemployment$`total unemployed`[year]
     
     federalFunding = aggregate(analysis_by_state['CoC federal funding'], by=analysis_by_state['year'], sum)
-    stateData[year, 'Federal Funding'] = federalFunding$`CoC federal funding`[year] * 1000
+    stateData[year, 'Federal Funding'] = federalFunding$`CoC federal funding`[year] * 1000000
   }
     
   stateData
