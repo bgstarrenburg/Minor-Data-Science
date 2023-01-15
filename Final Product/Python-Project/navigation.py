@@ -1,6 +1,15 @@
+###########
+# Imports #
+###########
+
 import pandas as pd
 import machineLearning
 from sklearn.linear_model import ElasticNet
+
+
+##########################
+# Initializing variables #
+##########################
 
 welcomeText = '''
 ###########################################
@@ -31,6 +40,10 @@ requestedValuesMetrics = {
     'Federal Funding': '$'
 }
 
+
+###########
+# Methods #
+###########
 
 def GetValues() -> pd.DataFrame:
     for s in requestedValues:
